@@ -31,4 +31,4 @@ COPY /srcs/ssl-params.conf /etc/nginx
 COPY /srcs/start.sh /tmp
 
 EXPOSE 5000
-CMD ["sh", "/tmp/start.sh"]
+CMD ["sh", "/srcs/start.sh"]
