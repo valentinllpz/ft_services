@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.12
 LABEL maintainer="vlugand-@student.42.fr"
 
 #NGINX INSTALLATION
