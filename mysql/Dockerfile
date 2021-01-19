@@ -15,4 +15,6 @@ COPY srcs/init_mariadb.sh tmp
 COPY srcs/wp_conf.sql tmp
 COPY srcs/pma_conf.sql tmp
 
+EXPOSE 3306
+
 CMD ["sh", "tmp/init_mariadb.sh"]
