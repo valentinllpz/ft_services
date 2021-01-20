@@ -28,7 +28,8 @@ RUN apk add wget php7 php7-fpm php7-mysqli php7-mbstring php7-json php7-session 
 #IMPORT CONFIG
 COPY /srcs/server.conf /etc/nginx/conf.d
 COPY /srcs/ssl-params.conf /etc/nginx
+COPY /srcs/config.inc.php /var/www/localhost/phpmyadmin
 COPY /srcs/start.sh /tmp
 
 EXPOSE 5000
-CMD ["sh", "/srcs/start.sh"]
+CMD ["sh", "/tmp/start.sh"]
