@@ -27,7 +27,7 @@ RUN apk add openrc && \
 #IMPORT CONFIG
 COPY /srcs/server.conf /etc/nginx/conf.d/
 COPY /srcs/ssl-params.conf /etc/nginx
-#COPY /srcs/wp-config.php /var/www/wordpress
+COPY /srcs/wp-config.php /var/www/wordpress
 COPY /srcs/start.sh /tmp
 
 EXPOSE 5050

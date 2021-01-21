@@ -12,5 +12,5 @@ sudo dpkg -i minikube_latest_amd64.deb
 #TURN NGINX OFF
 sudo service nginx stop
 
-#DL DASHBOARD
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
+#START DOCKER
+sudo service docker start
