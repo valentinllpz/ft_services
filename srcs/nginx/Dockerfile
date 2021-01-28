@@ -3,12 +3,12 @@ LABEL maintainer="vlugand-@student.42.fr"
 
 #NGINX INSTALLATION
 RUN apk update && \
-	apk add nginx && \
+	apk add --no-cache nginx && \
 	mkdir -p /run/nginx && \
 	rm -f /etc/nginx/conf.d/default.conf
 
 #SSL CONF
-RUN	apk add openssl && \
+RUN	apk add --no-cache openssl && \
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj '/C=FR/ST=75017/L=Paris/O=42/CN=localhost' -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt >/dev/null 2>&1 && \
 	openssl dhparam -out /etc/nginx/dhparam.pem 2048 >/dev/null 2>&1
 
@@ -19,4 +19,4 @@ COPY /srcs/ssl-params.conf /etc/nginx
 
 EXPOSE 80 443
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

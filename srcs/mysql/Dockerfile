@@ -3,10 +3,10 @@ LABEL maintainer="vlugand-@student.42.fr"
 
 #MYSQL INSTALLATION
 RUN apk update && \
-	apk add mysql mysql-client
+	apk add --no-cache mysql mysql-client
 
 #OPENRC SETUP (FOR SYSTEMS NOT BOOTED BY OPENRC)
-RUN apk add openrc && \
+RUN apk add --no-cache openrc && \
     mkdir -p /run/openrc && \
     touch /run/openrc/softlevel && \
     openrc >/dev/null 2>&1
@@ -16,4 +16,4 @@ COPY srcs/conf.sql tmp
 
 EXPOSE 3306
 
-CMD ["sh", "tmp/init_mariadb.sh"]
+ENTRYPOINT ["sh", "tmp/init_mariadb.sh"]

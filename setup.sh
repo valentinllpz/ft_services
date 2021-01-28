@@ -18,11 +18,16 @@ docker build -t nginx:latest srcs/nginx
 docker build -t mysql:latest srcs/mysql
 docker build -t phpmyadmin:latest srcs/phpmyadmin
 docker build -t wordpress:latest srcs/wordpress
+docker build -t grafana:latest srcs/grafana
+docker build -t influxdb:latest srcs/influxdb
 
 ### DEPLOYING WITH YAML CONF FILES ###
 kubectl apply -f srcs/metallb.yaml
 kubectl apply -f srcs/nginx.yaml
 kubectl apply -f srcs/mysql-pv.yaml
 kubectl apply -f srcs/mysql.yaml
+kubectl apply -f srcs/influxdb-pv.yaml
+kubectl apply -f srcs/influxdb.yaml
 kubectl apply -f srcs/phpmyadmin.yaml
 kubectl apply -f srcs/wordpress.yaml
+kubectl apply -f srcs/grafana.yaml
