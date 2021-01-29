@@ -28,8 +28,8 @@ RUN apk add --no-cache openrc && \
 COPY /srcs/server.conf /etc/nginx/conf.d/
 COPY /srcs/ssl-params.conf /etc/nginx
 COPY /srcs/wp-config.php /var/www/wordpress
-COPY /srcs/start.sh /tmp
+COPY /srcs/init_wp.sh /tmp
 
 EXPOSE 5050
 
-ENTRYPOINT ["sh", "/tmp/init_db.sh"]
+ENTRYPOINT ["sh", "/tmp/init_wp.sh"]

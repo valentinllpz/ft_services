@@ -29,7 +29,7 @@ RUN apk add --no-cache wget php7 php7-fpm php7-mysqli php7-mbstring php7-json ph
 COPY /srcs/server.conf /etc/nginx/conf.d
 COPY /srcs/ssl-params.conf /etc/nginx
 COPY /srcs/config.inc.php /var/www/localhost/phpmyadmin
-COPY /srcs/start.sh /tmp
+COPY /srcs/init_pma.sh /tmp
 
 EXPOSE 5000
 
