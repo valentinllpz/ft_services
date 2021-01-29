@@ -9,10 +9,6 @@ RUN apk add --no-cache openrc && \
 # INFLUXDB SETUP
 RUN apk update && \
     apk add --no-cache influxdb --no-cache 
-RUN service influxdb start && \
-    influx -execute "CREATE DATABASE metrics" && \
-    influx -execute "CREATE USER 'metrics_vlugand-' WITH PASSWORD 'metrics@ft_53rv1c35'" && \ 
-    influx -execute "GRANT ALL ON 'metrics' TO 'metrics_vlugand-'"
 
 # TELEGRAF SETUP
 RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --no-cache && \
