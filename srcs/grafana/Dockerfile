@@ -15,6 +15,7 @@ RUN mv usr/share/grafana/conf/sample.ini usr/share/grafana/conf/custom.ini && \
     sed -i "s/;admin_password = admin/admin_password = grafana@ft_53rv1c35/" /usr/share/grafana/conf/custom.ini
 
 COPY srcs/init_grafana.sh tmp
+COPY srcs/grafana.db usr/share/grafana/data/grafana.db
 
 EXPOSE 3000
 

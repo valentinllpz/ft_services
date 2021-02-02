@@ -1,5 +1,5 @@
 ### START MINIKUBE ###
-#minikube start 
+minikube start 
 
 ### METALLB INSTALLATION ###
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
@@ -26,7 +26,7 @@ kubectl apply -f srcs/metallb.yaml
 kubectl apply -f srcs/nginx.yaml
 kubectl apply -f srcs/mysql-pv.yaml
 kubectl apply -f srcs/mysql.yaml
-#kubectl apply -f srcs/telegraf.yaml
+kubectl apply -f srcs/telegraf.yaml
 kubectl apply -f srcs/influxdb-pv.yaml
 kubectl apply -f srcs/influxdb.yaml
 kubectl apply -f srcs/phpmyadmin.yaml
