@@ -6,11 +6,14 @@ sudo apt-get update
 sudo apt-get install -y kubectl
 
 #INSTALL MINIKUBE
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-sudo dpkg -i minikube_latest_amd64.deb
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 \
+  && chmod +x minikube
+sudo mkdir -p /usr/local/bin/
+sudo install minikube /usr/local/bin/
 
 #TURN NGINX OFF
 sudo service nginx stop
 
 #START DOCKER
+sudo usermod -a -G docker $USER
 sudo service docker start

@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.13
 LABEL maintainer="vlugand-@student.42.fr"
 
 #NGINX SETUP
@@ -26,9 +26,14 @@ RUN apk add --no-cache openrc && \
 
 #IMPORT CONFIG
 COPY /srcs/server.conf /etc/nginx/conf.d/
-COPY /srcs/ssl-params.conf /etc/nginx
-COPY /srcs/wp-config.php /var/www/wordpress
-COPY /srcs/init_wp.sh /tmp
+COPY /srcs/ssl-params.conf /etc/nginx/
+COPY /srcs/wp-config.php /var/www/wordpress/
+COPY /srcs/init_wp.sh /tmp/
+
+#TELEGRAF SETUP
+RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ && \
+    mkdir -p etc/telegraf/
+COPY /srcs/telegraf.conf /etc/telegraf/
 
 EXPOSE 5050
 

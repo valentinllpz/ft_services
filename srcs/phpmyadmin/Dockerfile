@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.13
 LABEL maintainer="vlugand-@student.42.fr"
 
 #NGINX SETUP
@@ -26,10 +26,15 @@ RUN apk add --no-cache wget php7 php7-fpm php7-mysqli php7-mbstring php7-json ph
     chmod -R 777 /var/www/localhost/phpmyadmin/ 
 
 #IMPORT CONFIG
-COPY /srcs/server.conf /etc/nginx/conf.d
-COPY /srcs/ssl-params.conf /etc/nginx
-COPY /srcs/config.inc.php /var/www/localhost/phpmyadmin
-COPY /srcs/init_pma.sh /tmp
+COPY /srcs/server.conf /etc/nginx/conf.d/
+COPY /srcs/ssl-params.conf /etc/nginx/
+COPY /srcs/config.inc.php /var/www/localhost/phpmyadmin/
+COPY /srcs/init_pma.sh /tmp/
+
+#TELEGRAF SETUP
+RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ && \
+    mkdir -p etc/telegraf/
+COPY srcs/telegraf.conf etc/telegraf/
 
 EXPOSE 5000
 

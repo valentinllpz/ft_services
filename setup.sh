@@ -1,5 +1,5 @@
 ### START MINIKUBE ###
-minikube start 
+minikube start --driver=docker
 
 ### METALLB INSTALLATION ###
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
