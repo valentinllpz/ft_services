@@ -34,7 +34,7 @@ COPY /srcs/init_pma.sh /tmp/
 #TELEGRAF SETUP
 RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ && \
     mkdir -p etc/telegraf/
-COPY srcs/telegraf.conf etc/telegraf/
+COPY /srcs/telegraf.conf /etc/telegraf/
 
 EXPOSE 5000
 
