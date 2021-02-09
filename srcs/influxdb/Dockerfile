@@ -9,8 +9,6 @@ RUN apk add --no-cache openrc && \
 # INFLUXDB SETUP
 RUN apk update && \
     apk add --no-cache influxdb --no-cache 
-
-COPY /srcs/telegraf.conf /etc/telegraf/
 COPY /srcs/init_influxdb.sh /tmp/
 
 #TELEGRAF SETUP

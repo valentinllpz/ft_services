@@ -1,4 +1,20 @@
+printf "\e[1;35m"
+printf "# ***************************************************************************************** #\n"
+printf "#                                                                                           #\n"
+printf "#            ::::::: :::                                                                    #\n"
+printf "#          :+:      :+:                                       :+:                           #\n"
+printf "#         +:+ +:+  +:+ +:+                                                                  #\n"
+printf "#        +#+      +#+     +#+#+#+ +#+#+#+ +#+#+#+ +#+   +#+ +#+ +#+#+#+ +#+#+#+ +#+#+#+     #\n"
+printf "#       #+#      #+#     #+#+    #+#  +# #+#  #+# #+#  #+# #+# #+#     #+#  +#  #+#+        #\n"
+printf "#      #+#      #+#        +#+# #+#     #+#       #+# #+# #+# #+#     #+#         +#+#      #\n"
+printf "#     ###      ###     #######  ###### ###         ####  ###  ####### ######  #######       #\n"
+printf "#                                                                                           #\n"
+printf "#                                                                                           #\n"
+printf "# ***************************************************************************************** #\n\n"
+printf "\e[0m"
+
 ### START MINIKUBE ###
+minikube delete
 minikube start --driver=docker
 
 ### METALLB INSTALLATION ###
@@ -32,3 +48,5 @@ kubectl apply -f srcs/influxdb.yaml
 kubectl apply -f srcs/phpmyadmin.yaml
 kubectl apply -f srcs/wordpress.yaml
 kubectl apply -f srcs/grafana.yaml
+
+minikube dashboard
