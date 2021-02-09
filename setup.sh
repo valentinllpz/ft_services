@@ -15,6 +15,7 @@ printf "\e[0m"
 
 ### START MINIKUBE ###
 minikube delete
+sudo service docker start
 minikube start --driver=docker
 
 ### METALLB INSTALLATION ###
@@ -49,4 +50,4 @@ kubectl apply -f srcs/phpmyadmin.yaml
 kubectl apply -f srcs/wordpress.yaml
 kubectl apply -f srcs/grafana.yaml
 
-minikube dashboard
+minikube dashboard 
