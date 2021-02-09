@@ -50,4 +50,5 @@ kubectl apply -f srcs/phpmyadmin.yaml
 kubectl apply -f srcs/wordpress.yaml
 kubectl apply -f srcs/grafana.yaml
 
-minikube dashboard 
+minikube addons enable metrics-server
+minikube dashboard
