@@ -1,1 +1,2 @@
+telegraf &
 sleep infinity

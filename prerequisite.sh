@@ -17,3 +17,6 @@ sudo service nginx stop
 #START DOCKER
 sudo usermod -a -G docker $USER
 sudo service docker start
+
+#RM install files
+rm minikube
