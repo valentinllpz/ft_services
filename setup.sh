@@ -49,5 +49,5 @@ minikube dashboard
 
 #### faire des if pour verifier que pas d'erreur de build sinon retry. 
 ### ID / MDP:
-# Wordpress (site): wp_admin / d3BAZnRfNTNydjFjMzUK
+# Wordpress (site): wp_admin / d3BAZnRfNTNydjFjMzUK // wp_user42 / Di8jWyV87eVP3saEV0$ZDNB // wp_user21 / 0VA67AiZXa0Ey5pDaqmFLQ@8
 # 
