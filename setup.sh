@@ -48,3 +48,6 @@ minikube addons enable metrics-server
 minikube dashboard
 
 #### faire des if pour verifier que pas d'erreur de build sinon retry. 
+### ID / MDP:
+# Wordpress (site): wp_admin / d3BAZnRfNTNydjFjMzUK
+# 
