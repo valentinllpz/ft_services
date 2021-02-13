@@ -21,6 +21,11 @@ RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpin
     touch /var/log/telegraf/telegraf.log
 COPY /srcs/telegraf.conf /etc/telegraf/
 
+RUN mkdir -p etc/vsftpd/etc/home/ && \
+    echo 'This is only a test' etc/vsftpd/etc/home/test && \
+    useradd -m -p password vlugand-
+
+COPY /srcs/vsftpd.conf /etc/vsftpd/
 COPY /srcs/init_ftps.sh /tmp/
 
 EXPOSE 21
