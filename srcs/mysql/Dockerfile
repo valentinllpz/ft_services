@@ -20,7 +20,7 @@ COPY /srcs/telegraf.conf /etc/telegraf/
 
 #IMPORT SQL CONF + WORDPRESS DB
 COPY /srcs/conf.sql /tmp/
-COPY /srcs/wordpress.sql /tmp/
+#COPY /srcs/wordpress.sql /tmp/
 
 #IMPORT STARTUP SCRIPT
 COPY /srcs/init_mariadb.sh /tmp/
