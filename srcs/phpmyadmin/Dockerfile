@@ -23,13 +23,7 @@ RUN apk add --no-cache wget php7 php7-fpm php7-mysqli php7-mbstring php7-json ph
     cd /var/www/localhost/ && wget -q http://files.directadmin.com/services/all/phpMyAdmin/phpMyAdmin-5.0.2-all-languages.tar.gz && \
     tar -zxvf phpMyAdmin-5.0.2-all-languages.tar.gz && rm phpMyAdmin-5.0.2-all-languages.tar.gz  && \
     mv phpMyAdmin-5.0.2-all-languages phpmyadmin && \
-    chmod -R 777 /var/www/localhost/phpmyadmin/ 
-
-#IMPORT CONFIG
-COPY /srcs/server.conf /etc/nginx/conf.d/
-COPY /srcs/ssl-params.conf /etc/nginx/
-COPY /srcs/config.inc.php /var/www/localhost/phpmyadmin/
-COPY /srcs/init_pma.sh /tmp/
+    chmod -R 777 /var/www/localhost/phpmyadmin/
 
 #TELEGRAF SETUP
 RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ && \
@@ -37,6 +31,14 @@ RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpin
     mkdir -p /var/log/telegraf/ && \
     touch /var/log/telegraf/telegraf.log
 COPY /srcs/telegraf.conf /etc/telegraf/
+
+#IMPORT CONFIG FILES
+COPY /srcs/server.conf /etc/nginx/conf.d/
+COPY /srcs/ssl-params.conf /etc/nginx/
+COPY /srcs/config.inc.php /var/www/localhost/phpmyadmin/
+
+#IMPORT STARTUP SCRIPT
+COPY /srcs/init_pma.sh /tmp/
 
 EXPOSE 5000
 

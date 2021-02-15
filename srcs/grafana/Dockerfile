@@ -12,7 +12,7 @@ RUN mv usr/share/grafana/conf/sample.ini usr/share/grafana/conf/custom.ini && \
     sed -i "s/;cert_file =/cert_file = \/etc\/ssl\/certs\/cert.pem/" /usr/share/grafana/conf/custom.ini && \
     sed -i "s/;cert_key =/cert_key = \/etc\/ssl\/private\/key.pem/" /usr/share/grafana/conf/custom.ini && \
     sed -i "s/;admin_user = admin/admin_user = grafana_vlugand-/" /usr/share/grafana/conf/custom.ini && \
-    sed -i "s/;admin_password = admin/admin_password = grafana@ft_53rv1c35/" /usr/share/grafana/conf/custom.ini
+    sed -i "s/;admin_password = admin/admin_password = Z3JhZmFuYUBmdF81M3J2MWMzNQo=/" /usr/share/grafana/conf/custom.ini
 
 COPY /srcs/init_grafana.sh /tmp/
 #COPY /srcs/grafana.db /usr/share/grafana/data/

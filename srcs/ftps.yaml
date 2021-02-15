@@ -13,6 +13,9 @@ spec:
       protocol: TCP
       port: 21
       targetPort: 21
+    - name: pasv
+      port: 40000
+      targetPort: 40000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,3 +39,4 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 21
+        - containerPort: 40000

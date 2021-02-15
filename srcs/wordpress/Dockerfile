@@ -24,18 +24,20 @@ RUN apk add --no-cache openrc && \
     touch /run/openrc/softlevel && \
     openrc >/dev/null 2>&1
 
-#IMPORT CONFIG
-COPY /srcs/server.conf /etc/nginx/conf.d/
-COPY /srcs/ssl-params.conf /etc/nginx/
-COPY /srcs/wp-config.php /var/www/wordpress/
-COPY /srcs/init_wp.sh /tmp/
-
 #TELEGRAF SETUP
 RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ && \
     mkdir -p etc/telegraf/ && \
     mkdir -p /var/log/telegraf/ && \
     touch /var/log/telegraf/telegraf.log
 COPY /srcs/telegraf.conf /etc/telegraf/
+
+#IMPORT CONFIG FILES
+COPY /srcs/server.conf /etc/nginx/conf.d/
+COPY /srcs/ssl-params.conf /etc/nginx/
+COPY /srcs/wp-config.php /var/www/wordpress/
+
+#IMPORT STARTUP SCRIPT
+COPY /srcs/init_wp.sh /tmp/
 
 EXPOSE 5050
 

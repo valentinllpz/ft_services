@@ -31,6 +31,7 @@ docker build -t phpmyadmin:latest srcs/phpmyadmin
 docker build -t wordpress:latest srcs/wordpress
 docker build -t grafana:latest srcs/grafana
 docker build -t influxdb:latest srcs/influxdb
+docker build -t ftps:latest srcs/ftps
 
 ### DEPLOYING WITH YAML CONF FILES ###
 kubectl apply -f srcs/metallb.yaml
@@ -43,6 +44,7 @@ kubectl apply -f srcs/influxdb.yaml
 kubectl apply -f srcs/phpmyadmin.yaml
 kubectl apply -f srcs/wordpress.yaml
 kubectl apply -f srcs/grafana.yaml
+kubectl apply -f srcs/ftps.yaml
 
 minikube addons enable metrics-server
 minikube dashboard

@@ -1,12 +1,12 @@
 FROM alpine:3.13
 
-# OPENRC SETUP (FOR SYSTEMS NOT BOOTED BY OPENRC)
+#OPENRC SETUP (FOR SYSTEMS NOT BOOTED BY OPENRC)
 RUN apk add --no-cache openrc && \
     mkdir -p /run/openrc && \
     touch /run/openrc/softlevel && \
     openrc >/dev/null 2>&1
 
-# INFLUXDB SETUP
+#INFLUXDB SETUP
 RUN apk update && \
     apk add --no-cache influxdb --no-cache 
 COPY /srcs/init_influxdb.sh /tmp/
