@@ -1,3 +1,2 @@
 telegraf &
-nginx
-sleep infinity
+nginx -g 'daemon off;'

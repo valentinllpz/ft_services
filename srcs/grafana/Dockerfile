@@ -15,7 +15,7 @@ RUN mv usr/share/grafana/conf/sample.ini usr/share/grafana/conf/custom.ini && \
     sed -i "s/;admin_password = admin/admin_password = Z3JhZmFuYUBmdF81M3J2MWMzNQo=/" /usr/share/grafana/conf/custom.ini
 
 COPY /srcs/init_grafana.sh /tmp/
-#COPY /srcs/grafana.db /usr/share/grafana/data/
+COPY /srcs/grafana.db /usr/share/grafana/data/
 
 #TELEGRAF SETUP
 RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ && \
