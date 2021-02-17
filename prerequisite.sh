@@ -1,22 +1,43 @@
-#INSTALL KUBECTL
-sudo apt-get update && sudo apt-get install -y apt-transport-https
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update
-sudo apt-get install -y kubectl
+#!/bin/bash
 
-#INSTALL MINIKUBE
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 \
-  && chmod +x minikube
-sudo mkdir -p /usr/local/bin/
-sudo install minikube /usr/local/bin/
+RED='\e[1;31m'
+GREEN='\e[1;32m'
+ORANGE='\e[1;33m'
+BLUE='\e[1;34m'
+MAGENTA='\e[1;35m'
+NC='\e[0m'
 
-#TURN NGINX OFF
-sudo service nginx stop
+# #INSTALL KUBECTL
+# sudo apt-get update && sudo apt-get install -y apt-transport-https
+# curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+# echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+# sudo apt-get update
+# sudo apt-get install -y kubectl
 
-#START DOCKER
-sudo usermod -a -G docker $USER
-sudo service docker start
+# #INSTALL MINIKUBE
+# curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 \
+#   && chmod +x minikube
+# sudo mkdir -p /usr/local/bin/
+# sudo install minikube /usr/local/bin/
 
-#RM install files
-rm minikube
+# #TURN NGINX OFF
+# sudo service nginx stop
+
+# #START DOCKER
+# sudo groupadd docker
+# sudo usermod -a -G docker $USER
+# #Restart your session for the changes to be effective
+
+# #RM install files
+# rm minikube
+
+
+if ! minikube version | grep -i v1.17.1
+then
+	echo "Installing minikube v1.17.1..."
+	curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 && chmod +x minikube
+	sudo mkdir -p /usr/local/bin/
+	sudo install minikube /usr/local/bin/
+else
+	echo "Looks like minikube v1.17.1 is already installed."
+fi
