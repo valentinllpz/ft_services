@@ -38,4 +38,10 @@ spec:
       containers:
       - image: phpmyadmin
         imagePullPolicy: Never
-        name: phpmyadmin
+		name: phpmyadmin
+		livenessProbe:
+		  exec:
+			command:
+			- /bin/sh
+			- -c
+			- ps -o comm | grep -iE 'telegraf|nginx|php-fpm7'

@@ -41,11 +41,10 @@ spec:
         - containerPort: 21
 		- containerPort: 40000
 		livenessProbe:
-			exec:
-				command:
-				- /bin/sh
-				- -c
-				- ps -o comm | grep -i 'vsftpd'
-				initialDelaySeconds: 30
-				periodSeconds: 10
-				
+		  exec:
+			command:
+			- /bin/sh
+			- -c
+			- ps -o comm | grep -iE 'telegraf|vsftpd'
+			initialDelaySeconds: 30
+			periodSeconds: 10

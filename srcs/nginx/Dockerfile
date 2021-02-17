@@ -10,12 +10,6 @@ RUN apk add --no-cache telegraf --repository http://dl-cdn.alpinelinux.org/alpin
     touch /var/log/telegraf/telegraf.log
 COPY /srcs/telegraf.conf /etc/telegraf/
 
-### OPENRC SETUP ###  (FOR SYSTEMS NOT BOOTED BY OPENRC)
-RUN apk add --no-cache openrc && \
-    mkdir -p /run/openrc && \
-    touch /run/openrc/softlevel && \
-    openrc >/dev/null 2>&1
-
 ### NGINX SETUP ###
 RUN	apk add --no-cache nginx && \
 	mkdir -p /run/nginx && \

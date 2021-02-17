@@ -52,11 +52,11 @@ minikube dashboard &
 
 #### faire des if pour verifier que pas d'erreur de build sinon retry. 
 ### ID / MDP:
-# Grafana:
-# InfluxDB:
-# PhpMyAdmin:		pma_vlugand- / cG1hQGZ0XzUzcnYxYzM1Cg==
-# Telegraf:			
-# Wordpress (site): wp_admin / 5)mHKclP0%Hpz^xV7d 
-#					wp_editor / !1J7EGwCvfGpQXO9ZNIeUMz( 
-#					wp_suscriber / 0UISwsk!jBz22M7SwJkvBpWp
-# Wordpress (DB):   wp_vlugand- / d3BAZnRfNTNydjFjMzUK
+# Ftps:				ftps_vlugand-		/	ZnRwc0BmdF81M3J2MWMzNQo=
+# Grafana:			grafana_vlugand-	/	Z3JhZmFuYUBmdF81M3J2MWMzNQo=
+# InfluxDB:			metrics_vlugand-	/	bWV0cmljc0BmdF81M3J2MWMzNQo=
+# PhpMyAdmin:		pma_vlugand-		/	cG1hQGZ0XzUzcnYxYzM1Cg==		
+# Wordpress (site): wp_admin			/	5)mHKclP0%Hpz^xV7d 
+#					wp_editor			/	!1J7EGwCvfGpQXO9ZNIeUMz( 
+#					wp_suscriber 		/	0UISwsk!jBz22M7SwJkvBpWp
+# Wordpress (DB):   wp_vlugand-			/	d3BAZnRfNTNydjFjMzUK

@@ -37,7 +37,15 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8086
-          name: influxdb
+		  name: influxdb
+		livenessProbe:
+		  exec:
+			command:
+			- /bin/sh
+			- -c
+			- ps -o comm | grep -iE 'telegraf|influxd'
+			initialDelaySeconds: 30
+			periodSeconds: 10
         volumeMounts:
         - name: influxdb-persistent-storage
           mountPath: /var/lib/influxdb
