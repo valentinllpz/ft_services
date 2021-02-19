@@ -22,26 +22,26 @@ echo "#                                                                         
 echo "# ***************************************************************************************** #\n"
 echo "${NC}"
 
-### START MINIKUBE ###
-minikube delete
-sudo service docker stop
-sudo service docker start
-minikube start --driver=docker
+# ### START MINIKUBE ###
+# minikube delete
+# sudo service docker stop
+# sudo service docker start
+# minikube start --driver=docker
 
-### METALLB INSTALLATION ###
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+# ### METALLB INSTALLATION ###
+# kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+# kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+# kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 
-### PREPARING DOCKER IMAGES ###
-eval $(minikube docker-env)
-docker build -t nginx:latest srcs/nginx
-docker build -t mysql:latest srcs/mysql
-docker build -t phpmyadmin:latest srcs/phpmyadmin
-docker build -t wordpress:latest srcs/wordpress
-docker build -t grafana:latest srcs/grafana
-docker build -t influxdb:latest srcs/influxdb
-docker build -t ftps:latest srcs/ftps
+# ### PREPARING DOCKER IMAGES ###
+# eval $(minikube docker-env)
+# docker build -t nginx:latest srcs/nginx
+# docker build -t mysql:latest srcs/mysql
+# docker build -t phpmyadmin:latest srcs/phpmyadmin
+# docker build -t wordpress:latest srcs/wordpress
+# docker build -t grafana:latest srcs/grafana
+# docker build -t influxdb:latest srcs/influxdb
+# docker build -t ftps:latest srcs/ftps
 
 ### DEPLOYING WITH YAML CONF FILES ###
 kubectl apply -f srcs/metallb.yaml
@@ -57,7 +57,7 @@ kubectl apply -f srcs/grafana.yaml
 kubectl apply -f srcs/ftps.yaml
 
 minikube addons enable metrics-server
-minikube dashboard &
+minikube dashboard
 
 #### faire des if pour verifier que pas d'erreur de build sinon retry. 
 ### ID / MDP:

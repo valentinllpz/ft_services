@@ -41,3 +41,9 @@ then
 else
 	echo "Looks like minikube v1.17.1 is already installed."
 fi
+
+if ! kubectl cluster-info
+then
+    echo "Installing kubectl..."
+	apt-get install kubectl
+fi

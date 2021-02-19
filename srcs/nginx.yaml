@@ -40,10 +40,12 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 80
-		- containerPort: 443
-		livenessProbe:
-		  exec:
-			command:
-			- /bin/sh
-			- -c
-			- ps -o comm | grep -iE 'telegraf|nginx'
+        - containerPort: 443
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - ps -o comm | grep -iE 'telegraf|nginx'
+          initialDelaySeconds: 30
+          periodSeconds: 10

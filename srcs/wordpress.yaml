@@ -35,10 +35,12 @@ spec:
         image: wordpress
         imagePullPolicy: Never
         ports:
-		- containerPort: 5050
-		livenessProbe:
-		  exec:
-			command:
-			- /bin/sh
-			- -c
-			- ps -o comm | grep -iE 'telegraf|nginx|php-fpm7'
+        - containerPort: 5050
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - ps -o comm | grep -iE 'telegraf|nginx|php-fpm7'
+          initialDelaySeconds: 30
+          periodSeconds: 10

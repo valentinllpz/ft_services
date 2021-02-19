@@ -35,13 +35,15 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 3306
-		  name: mysql
-		livenessProbe:
-		  exec:
-			command:
-			- /bin/sh
-			- -c
-			- ps -o comm | grep -iE 'telegraf|mariadb'
+          name: mysql
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - ps -o comm | grep -iE 'telegraf|mariadb'
+          initialDelaySeconds: 30
+          periodSeconds: 10
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
