@@ -32,18 +32,32 @@ NC='\e[0m'
 # rm minikube
 
 
-if ! minikube version | grep -i v1.17.1
-then
-	echo "Installing minikube v1.17.1..."
-	curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 && chmod +x minikube
-	sudo mkdir -p /usr/local/bin/
-	sudo install minikube /usr/local/bin/
-else
-	echo "Looks like minikube v1.17.1 is already installed."
-fi
+# if ! minikube version | grep -i v1.17.1
+# then
+# 	echo "Installing minikube v1.17.1..."
+# 	curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 && chmod +x minikube
+# 	sudo mkdir -p /usr/local/bin/
+# 	sudo install minikube /usr/local/bin/
+# else
+# 	echo "Looks like minikube v1.17.1 is already installed."
+# fi
 
-if ! kubectl cluster-info
-then
-    echo "Installing kubectl..."
-	apt-get install kubectl
-fi
+# if ! kubectl cluster-info
+# then
+#     echo "Installing kubectl..."
+# 	apt-get install kubectl
+# fi
+
+sleep 5 &
+pid=$! # Process Id of the previous running command
+
+spin='-\|/'
+
+i=0
+while kill -0 $pid 2>/dev/null
+do
+  i=$(( (i+1) %4 ))
+  printf "\r${spin:$i:1}"
+  sleep .1
+done
+sleep 5

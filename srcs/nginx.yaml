@@ -46,6 +46,6 @@ spec:
             command:
             - /bin/sh
             - -c
-            - ps -o comm | grep -iE 'telegraf|nginx'
+            - ps -o comm | grep 'telegraf' && ps -o comm | grep 'nginx'
           initialDelaySeconds: 30
           periodSeconds: 10

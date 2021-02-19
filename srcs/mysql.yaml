@@ -41,7 +41,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - ps -o comm | grep -iE 'telegraf|mariadb'
+            - ps -o comm | grep 'telegraf' && ps -o comm | grep 'mariadb'
           initialDelaySeconds: 30
           periodSeconds: 10
         volumeMounts:

@@ -44,6 +44,6 @@ spec:
             command:
             - /bin/sh
             - -c
-            - ps -o comm | grep -iE 'telegraf|nginx|php-fpm7'
+            - ps -o comm | grep 'telegraf' && ps -o comm | grep 'nginx' && ps -o comm | grep 'php-fpm7'
           initialDelaySeconds: 30
           periodSeconds: 10
