@@ -48,16 +48,8 @@ NC='\e[0m'
 # 	apt-get install kubectl
 # fi
 
-sleep 5 &
-pid=$! # Process Id of the previous running command
-
-spin='-\|/'
-
-i=0
-while kill -0 $pid 2>/dev/null
-do
-  i=$(( (i+1) %4 ))
-  printf "\r${spin:$i:1}"
-  sleep .1
-done
-sleep 5
+flag=0
+if ! [ "$flag" = "0" ]
+then
+    echo 'lol'
+fi
