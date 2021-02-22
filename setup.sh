@@ -3,14 +3,14 @@
 RED='\e[1;31m'
 GREEN='\e[1;32m'
 ORANGE='\e[1;33m'
-CYAN='\e[1;34m'
+BLUE='\e[1;34m'
 MAGENTA='\e[1;35m'
 NC='\e[0m'
 BOLD=$(tput bold)
 STD=$(tput sgr0)
 flag=1
 
-printf "${CYAN}"
+printf "${MAGENTA}"
 printf "# ***************************************************************************************** #\n"
 printf "#                                                                                           #\n"
 printf "#                                                                                           #\n"
@@ -81,8 +81,10 @@ function prerequisites_check {
     if ! kubectl > /dev/null 2>&1 
     then
         printf "\u21E9  Installing kubectl... "
-        sudo apt-get update > /dev/null 2>&1 ; \
-        sudo apt-get install kubectl > /dev/null 2>&1 & spinner
+        curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl > /dev/null 2>&1 ; \
+        curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl > /dev/null 2>&1 ; \
+        chmod +x ./kubectl > /dev/null 2>&1 ; \ 
+        sudo mv ./kubectl /usr/local/bin/kubectl & spinner
     else
         printf "\u2714  Kubectl is already installed.\n"
     fi
@@ -96,9 +98,9 @@ function prerequisites_check {
         printf "\u2714  Docker is already installed. \n"
     fi
 
-    sudo -a -G docker "$USER" > /dev/null 2>&1
+    sudo usermod -a -G docker "$USER"
     sed -i '0,/flag=0/{s/flag=0/flag=1/}' setup.sh
-    printf "\u21BA  You may need to restart to apply changes. \n"
+    printf "\u21BA  Please restart or log out to apply changes. \n"
     exit
 
 }
@@ -106,7 +108,7 @@ function prerequisites_check {
 function start_minikube {
 
     sudo service nginx stop
-    printf "\u2693  Starting Docker service.../n" && sudo service docker restart
+    printf "\u2693  Starting Docker service...\n" && sudo service docker restart
     minikube delete
     minikube start --driver=docker
 
@@ -114,9 +116,9 @@ function start_minikube {
 
 function install_metallb {
 
-    printf "\u26FC  Installing Metallb... "
-    kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml ; \
-    kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml ; \
+    printf "\u26FC   Installing Metallb... "
+    kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml > /dev/null 2>&1 ; \
     kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" > /dev/null 2>&1 & spinner
 
 }
@@ -124,66 +126,66 @@ function install_metallb {
 function build_images {
 
     eval $(minikube docker-env)
-    echo -e "\u2693  Creating required images with Docker.."
-    printf "  \u2B57 Building the NGINX custom image... "
+    echo -e "\u2693  Creating required images with Docker. This may take a while..."
+    printf "    \u2B57  Building the NGINX custom image... "
     docker build -t nginx:latest srcs/nginx > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "    \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
         docker build -t nginx:latest srcs/nginx 1>/dev/null & spinner
     fi
 
-    printf "  \u2B57 Building the MySQL custom image... "
+    printf "    \u2B57  Building the MySQL custom image... "
     docker build -t mysql:latest srcs/mysql > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "    Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
         docker build -t mysql:latest srcs/mysql 1> /dev/null & spinner
     fi
 
-    printf "  \u2B57 Building the phpMyAdmin custom image... "
+    printf "    \u2B57  Building the phpMyAdmin custom image... "
     docker build -t phpmyadmin:latest srcs/phpmyadmin > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "    Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
         docker build -t phpmyadmin:latest srcs/phpmyadmin 1> /dev/null & spinner
     fi
 
-    printf "  \u2B57 Building the WordPress custom image... "
+    printf "    \u2B57  Building the WordPress custom image... "
     docker build -t wordpress:latest srcs/wordpress > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "    Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
         docker build -t wordpress:latest srcs/wordpress 1> /dev/null 2>&1 & spinner
     fi
 
-    printf "  \u2B57 Building the Grafana custom image... "
+    printf "    \u2B57  Building the Grafana custom image... "
     docker build -t grafana:latest srcs/grafana > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "    Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
         docker build -t grafana:latest srcs/grafana 1> /dev/null & spinner
     fi
 
-    printf "  \u2B57 Building the InfluxDB custom image... "
+    printf "    \u2B57  Building the InfluxDB custom image... "
     docker build -t influxdb:latest srcs/influxdb > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "    Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
         docker build -t influxdb:latest srcs/influxdb 1> /dev/null & spinner
     fi
 
-    printf "  \u2B57 Building the FTPS custom image... "
+    printf "    \u2B57  Building the FTPS custom image... "
     docker build -t ftps:latest srcs/ftps > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "    Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
         docker build -t ftps:latest srcs/ftps 1> /dev/null & spinner
     fi
@@ -193,24 +195,24 @@ function build_images {
 function apply_yaml_files {
 
     printf "\u2638  Applying YAML files... "
-    kubectl apply -f srcs/metallb.yaml ; \
-    kubectl apply -f srcs/nginx.yaml ; \
-    kubectl apply -f srcs/mysql-pv.yaml ; \
-    kubectl apply -f srcs/mysql.yaml ; \
-    kubectl apply -f srcs/telegraf.yaml ; \
-    kubectl apply -f srcs/influxdb-pv.yaml ; \
-    kubectl apply -f srcs/influxdb.yaml ; \
-    kubectl apply -f srcs/phpmyadmin.yaml ; \
-    kubectl apply -f srcs/wordpress.yaml ; \
-    kubectl apply -f srcs/grafana.yaml ; \
-    kubectl apply -f srcs/ftps.yaml & spinner
+    kubectl apply -f srcs/metallb.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/nginx.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/mysql-pv.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/mysql.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/telegraf.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/influxdb-pv.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/influxdb.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/phpmyadmin.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/wordpress.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/grafana.yaml > /dev/null 2>&1 ; \
+    kubectl apply -f srcs/ftps.yaml > /dev/null 2>&1 & spinner
 
 }
 
 function launch_dashboard {
 
     minikube addons enable metrics-server
-    minikube dashboard &
+    minikube dashboard
 
 }
 
