@@ -51,11 +51,10 @@ function spinner {
     done
     if ! [ $? ]
     then
-        echo -e "${BOLD}Done ${GREEN}\u2714${NC}${STD}"
-    else
         echo -e "${BOLD}Failure ${RED}\u2717${NC}${STD}"
+    else
+        echo -e "${BOLD}Success ${GREEN}\u2714${NC}${STD}"
     fi
 }
 
-
-find -rew yrtje & spinner
+echo oui  &  spinner
