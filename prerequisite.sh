@@ -32,24 +32,30 @@ NC='\e[0m'
 # rm minikube
 
 
-# if ! minikube version | grep -i v1.17.1
-# then
-# 	echo "Installing minikube v1.17.1..."
-# 	curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 && chmod +x minikube
-# 	sudo mkdir -p /usr/local/bin/
-# 	sudo install minikube /usr/local/bin/
-# else
-# 	echo "Looks like minikube v1.17.1 is already installed."
-# fi
+function spinner {
 
-# if ! kubectl cluster-info
-# then
-#     echo "Installing kubectl..."
-# 	apt-get install kubectl
-# fi
+    char=(\| / – \\)
+    delay=0.1
+    pid=$!
+    i=0
 
-flag=0
-if ! [ "$flag" = "0" ]
-then
-    echo 'lol'
-fi
+    while kill -0 $pid 2>/dev/null; do
+
+        for ((i=0; i<=3; i++)); do
+            echo -n ${char[$i]}
+            sleep $delay
+            echo -ne '\b'
+        done
+
+    i=0;
+    done
+    if ! [ $? ]
+    then
+        echo -e "${BOLD}Done ${GREEN}\u2714${NC}${STD}"
+    else
+        echo -e "${BOLD}Failure ${RED}\u2717${NC}${STD}"
+    fi
+}
+
+
+find -rew yrtje & spinner
