@@ -8,7 +8,7 @@ MAGENTA='\e[1;35m'
 NC='\e[0m'
 BOLD=$(tput bold)
 STD=$(tput sgr0)
-flag=0
+flag=1
 
 printf "${CYAN}"
 printf "# ***************************************************************************************** #\n"
@@ -41,24 +41,25 @@ function spinner {
             sleep $delay
             echo -ne '\b'
         done
-
-    i=0;
+    i=0
     done
-    if ! ! [ $? ]
+    
+    if [ $? ]
     then
-        echo -e "Failure ${RED}\u2717${NC}"
-    else
         echo -e "Success ${GREEN}\u2714${NC}"
+    else
+        echo -e "Failure ${RED}\u2717${NC}"
     fi
+
 }
 
 function kernel_check {
 
     KERNEL=$(uname -s)
 
-	if ! [ $KERNEL != Linux ]
+	if [ $KERNEL != Linux ]
     then
-		printf "\u2717  Wrong kernel detected. Trying to run this script on ${RED}${KERNEL}${NC} instead of ${GREEN}Linux${NC}."
+		printf "\u2717  Wrong kernel detected. Trying to run this script on ${RED}${KERNEL}${NC} instead of ${GREEN}Linux${NC}./n"
 		exit
 	fi
 
@@ -66,35 +67,38 @@ function kernel_check {
 
 function prerequisites_check {
 
-    if ! ! [ minikube version | grep -i v1.17.1 ]
+    if ! minikube version | grep -i "v1.17.1" > /dev/null 2>&1 
     then
-        printf "\u21E9  Installing minikube v1.17.1..."
-        curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 && chmod +x minikube
-        sudo mkdir -p /usr/local/bin/
-        sudo install minikube /usr/local/bin/
+        printf "\u21E9  Installing minikube v1.17.1... "
+        curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.17.1/minikube-linux-amd64 > /dev/null 2>&1 ; \
+        chmod +x minikube > /dev/null 2>&1 ; \
+        sudo mkdir -p /usr/local/bin/ ; \
+        sudo install minikube /usr/local/bin/ & spinner
     else
-        printf "\u2714  Minikube v1.17.1 is already installed."
+        printf "\u2714  Minikube v1.17.1 is already installed.\n"
     fi
 
-    if ! ! [ kubectl cluster-info ]
+    if ! kubectl > /dev/null 2>&1 
     then
-        echo "\u21E9  Installing kubectl..."
-        sudo apt-get update && sudo apt-get install kubectl
+        printf "\u21E9  Installing kubectl... "
+        sudo apt-get update > /dev/null 2>&1 ; \
+        sudo apt-get install kubectl > /dev/null 2>&1 & spinner
     else
-        printf "\u2714  Kubectl is already installed."
+        printf "\u2714  Kubectl is already installed.\n"
     fi
 
-    if ! ! [ docker ]
+    if ! docker > /dev/null 2>&1 
     then
-        printf "\u21E9  Installing Docker..."
-        sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
+        printf "\u21E9  Installing Docker... "
+        sudo apt-get update > /dev/null 2>&1 ; \
+        sudo apt-get install docker-ce docker-ce-cli containerd.io > /dev/null 2>&1 & spinner
     else
-        printf "\u2714  Docker is already installed."
+        printf "\u2714  Docker is already installed. \n"
     fi
 
-    sudo -a -G docker "$USER"
-    sed -i "s/flag=0/flag=1/" setup.sh
-    printf "\u21BA  You may need to restart to apply changes."
+    sudo -a -G docker "$USER" > /dev/null 2>&1
+    sed -i '0,/flag=0/{s/flag=0/flag=1/}' setup.sh
+    printf "\u21BA  You may need to restart to apply changes. \n"
     exit
 
 }
@@ -102,7 +106,7 @@ function prerequisites_check {
 function start_minikube {
 
     sudo service nginx stop
-    printf "\u2693  Starting Docker service... " && sudo service docker restart
+    printf "\u2693  Starting Docker service.../n" && sudo service docker restart
     minikube delete
     minikube start --driver=docker
 
@@ -113,75 +117,75 @@ function install_metallb {
     printf "\u26FC  Installing Metallb... "
     kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml ; \
     kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml ; \
-    kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" > /dev/null/ 2>&1 & spinner
+    kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" > /dev/null 2>&1 & spinner
 
 }
 
 function build_images {
 
     eval $(minikube docker-env)
-
-    printf "Building the NGINX custom image... "
-    docker build -t nginx:latest srcs/nginx > /dev/null/ 2>&1 & spinner
+    echo -e "\u2693  Creating required images with Docker.."
+    printf "  \u2B57 Building the NGINX custom image... "
+    docker build -t nginx:latest srcs/nginx > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "\u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
-        docker build -t nginx:latest srcs/nginx 1>/dev/null/ & spinner
+        docker build -t nginx:latest srcs/nginx 1>/dev/null & spinner
     fi
 
-    printf "Building the MySQL custom image... "
-    docker build -t mysql:latest srcs/mysql > /dev/null/ 2>&1 & spinner
+    printf "  \u2B57 Building the MySQL custom image... "
+    docker build -t mysql:latest srcs/mysql > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "\u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
-        docker build -t mysql:latest srcs/mysql 1> /dev/null/ & spinner
+        docker build -t mysql:latest srcs/mysql 1> /dev/null & spinner
     fi
 
-    printf "Building the phpMyAdmin custom image... "
-    docker build -t phpmyadmin:latest srcs/phpmyadmin > /dev/null/ 2>&1 & spinner
+    printf "  \u2B57 Building the phpMyAdmin custom image... "
+    docker build -t phpmyadmin:latest srcs/phpmyadmin > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "\u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
-        docker build -t phpmyadmin:latest srcs/phpmyadmin 1> /dev/null/ & spinner
+        docker build -t phpmyadmin:latest srcs/phpmyadmin 1> /dev/null & spinner
     fi
 
-    printf "Building the WordPress custom image... "
-    docker build -t wordpress:latest srcs/wordpress > /dev/null/ 2>&1 & spinner
+    printf "  \u2B57 Building the WordPress custom image... "
+    docker build -t wordpress:latest srcs/wordpress > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "\u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
-        docker build -t wordpress:latest srcs/wordpress 1> /dev/null/ 2>&1 & spinner
+        docker build -t wordpress:latest srcs/wordpress 1> /dev/null 2>&1 & spinner
     fi
 
-    printf "Building the Grafana custom image... "
-    docker build -t grafana:latest srcs/grafana > /dev/null/ 2>&1 & spinner
+    printf "  \u2B57 Building the Grafana custom image... "
+    docker build -t grafana:latest srcs/grafana > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "\u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
-        docker build -t grafana:latest srcs/grafana 1> /dev/null/ & spinner
+        docker build -t grafana:latest srcs/grafana 1> /dev/null & spinner
     fi
 
-    printf "Building the InfluxDB custom image... "
-    docker build -t influxdb:latest srcs/influxdb > /dev/null/ 2>&1 & spinner
+    printf "  \u2B57 Building the InfluxDB custom image... "
+    docker build -t influxdb:latest srcs/influxdb > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "\u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
-        docker build -t influxdb:latest srcs/influxdb 1> /dev/null/ & spinner
+        docker build -t influxdb:latest srcs/influxdb 1> /dev/null & spinner
     fi
 
-    printf "Building the FTPS custom image... "
-    docker build -t ftps:latest srcs/ftps > /dev/null/ 2>&1 & spinner
+    printf "  \u2B57 Building the FTPS custom image... "
+    docker build -t ftps:latest srcs/ftps > /dev/null 2>&1 & spinner
     if ! [ $? ]
     then
-        printf "\u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
+        printf "  \u2622  Don't panic, this might be a temporary error. Retrying in a few seconds, stderr will be printed this time."
         sleep 10
-        docker build -t ftps:latest srcs/ftps 1> /dev/null/ & spinner
+        docker build -t ftps:latest srcs/ftps 1> /dev/null & spinner
     fi
 
 }
@@ -211,12 +215,12 @@ function launch_dashboard {
 }
 
 kernel_check
-if ! ! [ "$flag" = "0" ]
+if [ "$flag" = "0" ]
 then
     prerequisites_check
 fi
-#start_minikube
-#install_metallb
+start_minikube
+install_metallb
 build_images
 apply_yaml_files
 launch_dashboard
