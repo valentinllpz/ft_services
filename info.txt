@@ -1,26 +1,26 @@
 # *** Information ************************************************************************* #
 #                                                                                           #
-# Ftps:				    https://192.168.49.2:21                                             #
+# Ftps:                 https://192.168.49.2:21                                             #
 #                                                                                           #
-#                       ftps_vlugand-		/	ZnRwc0BmdF81M3J2MWMzNQo=                    #
+#                       ftps_vlugand-       /   ZnRwc0BmdF81M3J2MWMzNQo=                    #
 #                                                                                           #
-# Grafana:			    https://192.168.49.2:3000                                           #
+# Grafana:              https://192.168.49.2:3000                                           #
 #                                                                                           #
-#                       grafana_vlugand-	/	Z3JhZmFuYUBmdF81M3J2MWMzNQo=                #
+#                       grafana_vlugand-    /   Z3JhZmFuYUBmdF81M3J2MWMzNQo=                #
 #                                                                                           #
-# InfluxDB:             metrics_vlugand-	/	bWV0cmljc0BmdF81M3J2MWMzNQo=                #
+# InfluxDB:             metrics_vlugand-    /   bWV0cmljc0BmdF81M3J2MWMzNQo=                #
 #                                                                                           #
-# PhpMyAdmin:		    https://192.168.49.2:5000 or https://192.168.49.2/phpmyadmin        #
+# PhpMyAdmin:           https://192.168.49.2:5000 or https://192.168.49.2/phpmyadmin        #
 #                                                                                           #
-#                       pma_vlugand-		/	cG1hQGZ0XzUzcnYxYzM1Cg==                    #
+#                       pma_vlugand-        /   cG1hQGZ0XzUzcnYxYzM1Cg==                    #
 #                                                                                           #
 # Wordpress (site):     https://192.168.49.2:5050 or https://192.168.49.2/phpmyadmin        #
 #                                                                                           #
-#                       wp_admin			/	5)mHKclP0%Hpz^xV7d                          #
-#				    	wp_editor			/	!1J7EGwCvfGpQXO9ZNIeUMz(                    #
-#				    	wp_suscriber 		/	0UISwsk!jBz22M7SwJkvBpWp                    #
+#                       wp_admin            /   5)mHKclP0%Hpz^xV7d                          #
+#                       wp_editor           /   !1J7EGwCvfGpQXO9ZNIeUMz(                    #
+#                   	wp_suscriber        /   0UISwsk!jBz22M7SwJkvBpWp                    #
 #                                                                                           #
-# Wordpress (MySQL):    wp_vlugand-			/	d3BAZnRfNTNydjFjMzUK                        #
-# InfluxDB:             metrics_vlugand-	/	bWV0cmljc0BmdF81M3J2MWMzNQo=                #
+# Wordpress (MySQL):    wp_vlugand-         /   d3BAZnRfNTNydjFjMzUK                        #
+# InfluxDB:             metrics_vlugand-    /   bWV0cmljc0BmdF81M3J2MWMzNQo=                #
 #                                                                                           #
 # ***************************************************************************************** #
