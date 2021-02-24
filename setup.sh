@@ -9,7 +9,7 @@ CYAN='\e[1;36m'
 NC='\e[0m'
 BOLD=$(tput bold)
 STD=$(tput sgr0)
-flag=1
+flag=0
 status=0
 
 printf "${CYAN}"
@@ -93,7 +93,7 @@ function prerequisites_check {
     fi
 
     sudo usermod -a -G docker "$USER"
-    sed -i '0,/flag=0/{s/flag=0/flag=1/}' setup.sh
+    sed -i '0,/flag=1/{s/flag=0/flag=1/}' setup.sh
     printf "\u21BA  Please restart or log out to apply changes. \n"
     exit
 
@@ -123,6 +123,9 @@ function build_images {
 
     eval $(minikube docker-env)
     echo -e "\u2693  Creating required images with Docker. This may take a while..."
+    sleep 5
+    printf "    \u2B57  Building the InfluxDB custom image... "
+    docker build -t influxdb:latest srcs/influxdb > /dev/null & spinner
     printf "    \u2B57  Building the NGINX custom image... "
     docker build -t nginx:latest srcs/nginx  > /dev/null & spinner
     printf "    \u2B57  Building the MySQL custom image... "
@@ -133,8 +136,6 @@ function build_images {
     docker build -t wordpress:latest srcs/wordpress > /dev/null & spinner
     printf "    \u2B57  Building the Grafana custom image... "
     docker build -t grafana:latest srcs/grafana > /dev/null & spinner
-    printf "    \u2B57  Building the InfluxDB custom image... "
-    docker build -t influxdb:latest srcs/influxdb > /dev/null & spinner
     printf "    \u2B57  Building the FTPS custom image... "
     docker build -t ftps:latest srcs/ftps > /dev/null & spinner
 
@@ -157,12 +158,42 @@ function apply_yaml_files {
 
 }
 
+function img_error_check {
+
+    if kubectl get all | grep -i ErrImageNeverPull
+    then
+        sleep 30
+    fi
+
+    if kubectl get all | grep -i ErrImageNeverPull > /dev/null 2>&1
+    then
+        echo -e "    \u2622  An error occured while building images with Docker. Retrying..."
+        eval $(minikube docker-env)
+        docker build -t nginx:latest srcs/nginx  > /dev/null
+        docker build -t mysql:latest srcs/mysql > /dev/null
+        docker build -t phpmyadmin:latest srcs/phpmyadmin > /dev/null
+        docker build -t wordpress:latest srcs/wordpress > /dev/null
+        docker build -t grafana:latest srcs/grafana > /dev/null
+        docker build -t influxdb:latest srcs/influxdb > /dev/null
+        docker build -t ftps:latest srcs/ftps > /dev/null
+        sleep 45
+    fi
+
+    if kubectl get all | grep -i ErrImageNeverPull
+    then
+        echo -e "${RED}    \u26A0  Failed to build with Docker. Exiting now.${NC}"
+        exit
+    fi
+}
+
 function launch_dashboard {
 
-    minikube addons enable metrics-server 
-    echo -e "${CYAN}"
+    sleep 10
+    kubectl get all
+    echo -e "${BOLD}"
     cat info.txt
-    echo -e "${NC}"
+    echo -e "${STD}"
+    minikube addons enable metrics-server
     minikube dashboard
 }
 
@@ -175,4 +206,5 @@ start_minikube
 install_metallb
 build_images
 apply_yaml_files
+img_error_check
 launch_dashboard
