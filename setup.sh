@@ -125,19 +125,19 @@ function build_images {
     echo -e "\u2693  Creating required images with Docker. This may take a while..."
     sleep 5
     printf "    \u2B57  Building the InfluxDB custom image... "
-    docker build -t influxdb:latest srcs/influxdb > /dev/null & spinner
+    docker build -t influxdb:latest srcs/influxdb > /dev/null 2>&1 & spinner
     printf "    \u2B57  Building the NGINX custom image... "
-    docker build -t nginx:latest srcs/nginx  > /dev/null & spinner
+    docker build -t nginx:latest srcs/nginx  > /dev/null 2>&1 & spinner
     printf "    \u2B57  Building the MySQL custom image... "
-    docker build -t mysql:latest srcs/mysql > /dev/null & spinner
+    docker build -t mysql:latest srcs/mysql > /dev/null 2>&1 & spinner
     printf "    \u2B57  Building the phpMyAdmin custom image... "
-    docker build -t phpmyadmin:latest srcs/phpmyadmin > /dev/null & spinner
+    docker build -t phpmyadmin:latest srcs/phpmyadmin > /dev/null 2>&1 & spinner
     printf "    \u2B57  Building the WordPress custom image... "
-    docker build -t wordpress:latest srcs/wordpress > /dev/null & spinner
+    docker build -t wordpress:latest srcs/wordpress > /dev/null 2>&1 & spinner
     printf "    \u2B57  Building the Grafana custom image... "
-    docker build -t grafana:latest srcs/grafana > /dev/null & spinner
+    docker build -t grafana:latest srcs/grafana > /dev/null 2>&1 & spinner
     printf "    \u2B57  Building the FTPS custom image... "
-    docker build -t ftps:latest srcs/ftps > /dev/null & spinner
+    docker build -t ftps:latest srcs/ftps > /dev/null 2>&1 & spinner
 
 }
 
