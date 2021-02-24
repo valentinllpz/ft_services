@@ -61,6 +61,15 @@ function kernel_check {
 
 function prerequisites_check {
 
+    sudo apt-get update > /dev/null 2>&1
+    if ! docker > /dev/null 2>&1 
+    then
+        printf "\u21E9  Installing Docker... "
+        sudo apt-get install docker-ce docker-ce-cli containerd.io > /dev/null 2>&1 & spinner
+    else
+        printf "\u2714  Docker is already installed. \n"
+    fi
+
     if ! minikube version | grep -i "v1.17.1" > /dev/null 2>&1 
     then
         printf "\u21E9  Installing minikube v1.17.1... "
@@ -68,6 +77,7 @@ function prerequisites_check {
         chmod +x minikube > /dev/null 2>&1 ; \
         sudo mkdir -p /usr/local/bin/ ; \
         sudo install minikube /usr/local/bin/ & spinner
+        rm minikube
     else
         printf "\u2714  Minikube v1.17.1 is already installed.\n"
     fi
@@ -83,18 +93,9 @@ function prerequisites_check {
         printf "\u2714  Kubectl is already installed.\n"
     fi
 
-    if ! docker > /dev/null 2>&1 
-    then
-        printf "\u21E9  Installing Docker... "
-        sudo apt-get update > /dev/null 2>&1 ; \
-        sudo apt-get install docker-ce docker-ce-cli containerd.io > /dev/null 2>&1 & spinner
-    else
-        printf "\u2714  Docker is already installed. \n"
-    fi
-
     sudo usermod -a -G docker "$USER"
-    sed -i '0,/flag=1/{s/flag=0/flag=1/}' setup.sh
-    printf "\u21BA  Please restart or log out to apply changes. \n"
+    sed -i '0,/flag=1/{s/flag=1/flag=1/}' setup.sh
+    printf "${BOLD}\u21BA  Please restart or log out to apply changes. \n${STD}"
     exit
 
 }
@@ -176,7 +177,7 @@ function img_error_check {
         docker build -t grafana:latest srcs/grafana > /dev/null
         docker build -t influxdb:latest srcs/influxdb > /dev/null
         docker build -t ftps:latest srcs/ftps > /dev/null
-        sleep 45
+        sleep 30
     fi
 
     if kubectl get all | grep -i ErrImageNeverPull
@@ -188,7 +189,8 @@ function img_error_check {
 
 function launch_dashboard {
 
-    sleep 10
+    printf "\u231B  Waiting for containers to be created... " ; sleep 30 & spinner
+    echo ""
     kubectl get all
     echo -e "${BOLD}"
     cat info.txt
