@@ -8,8 +8,6 @@
 #                                                                                           #
 #                       grafana_vlugand-    /   Z3JhZmFuYUBmdF81M3J2MWMzNQo=                #
 #                                                                                           #
-# InfluxDB:             metrics_vlugand-    /   bWV0cmljc0BmdF81M3J2MWMzNQo=                #
-#                                                                                           #
 # PhpMyAdmin:           https://192.168.49.2:5000 or https://192.168.49.2/phpmyadmin        #
 #                                                                                           #
 #                       pma_vlugand-        /   cG1hQGZ0XzUzcnYxYzM1Cg==                    #
