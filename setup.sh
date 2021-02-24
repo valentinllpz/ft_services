@@ -94,7 +94,7 @@ function prerequisites_check {
     fi
 
     sudo usermod -a -G docker "$USER"
-    sed -i '0,/flag=1/{s/flag=1/flag=1/}' setup.sh
+    sed -i '0,/flag=0/{s/flag=0/flag=1/}' setup.sh
     printf "${BOLD}\u21BA  Please restart or log out to apply changes. \n${STD}"
     exit
 
